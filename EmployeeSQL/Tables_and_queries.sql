@@ -5,24 +5,6 @@ CREATE TABLE departments(
 	dept_name VARCHAR(30)
 );
 
--- dept_emp.csv
-DROP TABLE IF EXISTS dept_employees;
-CREATE TABLE dept_employees(
-	emp_no INT,
-	dept_no VARCHAR(5),
-	from_date DATE,
-	to_date DATE
-);
-
--- dept_manager.csv
-DROP TABLE IF EXISTS dept_managers;
-CREATE TABLE dept_managers(
-	dept_no VARCHAR(5) NOT NULL,
-	emp_no INT NOT NULL,
-	from_date DATE,
-	to_date DATE
-);
-
 -- employees.csv
 DROP TABLE IF EXISTS employees;
 CREATE TABLE employees(
@@ -34,13 +16,40 @@ CREATE TABLE employees(
 	hire_date DATE
 );
 
+-- dept_emp.csv
+DROP TABLE IF EXISTS dept_employees;
+CREATE TABLE dept_employees(
+	emp_no INT,
+	FOREIGN KEY emp_no REFERENCES employees(emp_no),
+	dept_no VARCHAR(5),
+	FOREIGN KEY dept_no REFERENCES departments(dept_no),
+	from_date DATE,
+	to_date DATE,
+	PRIMARY KEY (emp_no,dept_no)
+);
+
+-- dept_manager.csv
+DROP TABLE IF EXISTS dept_managers;
+CREATE TABLE dept_managers(
+	dept_no VARCHAR(5) NOT NULL,
+	FOREIGN KEY dept_no REFERENCES departments(dept_no),
+	emp_no INT NOT NULL,
+	FOREIGN KEY emp_no REFERENCES employees(emp_no),
+	from_date DATE,
+	to_date DATE,
+	PRIMARY KEY (emp_no,dept_no)
+);
+
+
+
 -- salaries.csv
 DROP TABLE IF EXISTS salaries;
 CREATE TABLE salaries(
 	emp_no INT NOT NULL,
 	salary INT NOT NULL,
 	from_date DATE,
-	to_date DATE
+	to_date DATE,
+	FOREIGN KEY (emp_no) REFERENCES employees(emp_no)
 );
 
 -- titles.csv
@@ -49,7 +58,8 @@ CREATE TABLE titles(
 	emp_no INT NOT NULL,
 	title VARCHAR(30) NOT NULL,
 	from_date DATE,
-	to_date DATE
+	to_date DATE,
+	FOREIGN KEY (emp_no) REFERENCES employees(emp_no)
 );
 
 SELECT * FROM titles;
