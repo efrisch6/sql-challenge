@@ -10,20 +10,20 @@ DROP TABLE IF EXISTS employees;
 CREATE TABLE employees(
 	emp_no INT NOT NULL PRIMARY KEY,
 	birth_date DATE,
-	first_name VARCHAR(30),
-	last_name VARCHAR(30),
+	first_name VARCHAR(30) NOT NULL,
+	last_name VARCHAR(30) NOT NULL,
 	gender VARCHAR(1),
-	hire_date DATE
+	hire_date DATE NOT NULL
 );
 
 -- dept_emp.csv
 DROP TABLE IF EXISTS dept_employees;
 CREATE TABLE dept_employees(
-	emp_no INT,
+	emp_no INT NOT NULL,
 	FOREIGN KEY emp_no REFERENCES employees(emp_no),
-	dept_no VARCHAR(5),
+	dept_no VARCHAR(5) NOT NULL,
 	FOREIGN KEY dept_no REFERENCES departments(dept_no),
-	from_date DATE,
+	from_date DATE NOT NULL,
 	to_date DATE,
 	PRIMARY KEY (emp_no,dept_no)
 );
@@ -35,7 +35,7 @@ CREATE TABLE dept_managers(
 	FOREIGN KEY dept_no REFERENCES departments(dept_no),
 	emp_no INT NOT NULL,
 	FOREIGN KEY emp_no REFERENCES employees(emp_no),
-	from_date DATE,
+	from_date DATE NOT NULL,
 	to_date DATE,
 	PRIMARY KEY (emp_no,dept_no)
 );
@@ -47,9 +47,10 @@ DROP TABLE IF EXISTS salaries;
 CREATE TABLE salaries(
 	emp_no INT NOT NULL,
 	salary INT NOT NULL,
-	from_date DATE,
+	from_date DATE NOT NULL,
 	to_date DATE,
-	FOREIGN KEY (emp_no) REFERENCES employees(emp_no)
+	FOREIGN KEY (emp_no) REFERENCES employees(emp_no),
+	PRIMARY KEY (emp_no, salary)
 );
 
 -- titles.csv
@@ -57,9 +58,10 @@ DROP TABLE IF EXISTS titles;
 CREATE TABLE titles(
 	emp_no INT NOT NULL,
 	title VARCHAR(30) NOT NULL,
-	from_date DATE,
+	from_date DATE NOT NULL,
 	to_date DATE,
-	FOREIGN KEY (emp_no) REFERENCES employees(emp_no)
+	FOREIGN KEY (emp_no) REFERENCES employees(emp_no),
+	PRIMARY KEY (emp_no,title)
 );
 
 SELECT * FROM titles;
