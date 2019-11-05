@@ -114,7 +114,7 @@ WHERE dept_name = 'Sales' OR dept_name = 'Development';
 SELECT last_name, count(*) AS count
 FROM employees
 GROUP BY last_name
-ORDER BY 2 DESC;
+ORDER BY count DESC;
 
 -- BONUS
 SELECT title, salary 
